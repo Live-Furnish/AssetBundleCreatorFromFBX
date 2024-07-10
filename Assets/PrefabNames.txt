@@ -1,0 +1,8 @@
+
+Prefab Names List
+Project Path D:/Projects/AssetBundleCreatorFromFBX/AssetBundleCreatorFromFBX/Assets
+
+*******************************************
+LoadedObjectPrefab
+
+*******************************************

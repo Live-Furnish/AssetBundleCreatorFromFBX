@@ -1,0 +1,271 @@
+{
+    "materialDetails": [
+        {
+            "material_name": "4inchWheel:color:255:0:0",
+            "base_color": "#ff0000",
+            "main_tex": null,
+            "metallic": 0,
+            "metallic_tex": null,
+            "alpha": 1.0,
+            "alpha_tex": null,
+            "roughness": 1,
+            "roughness_tex": null,
+            "normal": 1,
+            "normal_tex": null,
+            "mapping": {
+                "X": 1,
+                "Y": 1,
+                "Z": 1
+            },
+            "offset": {
+                "X": 0,
+                "Y": 0,
+                "Z": 0
+            },
+            "roughnessMapping": {
+                "X": 1,
+                "Y": 1,
+                "Z": 1
+            },
+            "roughnessOffset": {
+                "X": 0,
+                "Y": 0,
+                "Z": 0
+            },
+            "metallicMapping": {
+                "X": 1,
+                "Y": 1,
+                "Z": 1
+            },
+            "metallicOffset": {
+                "X": 0,
+                "Y": 0,
+                "Z": 0
+            },
+            "normalMapping": {
+                "X": 1,
+                "Y": 1,
+                "Z": 1
+            },
+            "normalOffset": {
+                "X": 0,
+                "Y": 0,
+                "Z": 0
+            }
+        },
+        {
+            "material_name": "4inchWheel:color:202:209:238",
+            "base_color": "#cad1ed",
+            "main_tex": null,
+            "metallic": 0,
+            "metallic_tex": null,
+            "alpha": 1.0,
+            "alpha_tex": null,
+            "roughness": 1,
+            "roughness_tex": null,
+            "normal": 1,
+            "normal_tex": null,
+            "mapping": {
+                "X": 1,
+                "Y": 1,
+                "Z": 1
+            },
+            "offset": {
+                "X": 0,
+                "Y": 0,
+                "Z": 0
+            },
+            "roughnessMapping": {
+                "X": 1,
+                "Y": 1,
+                "Z": 1
+            },
+            "roughnessOffset": {
+                "X": 0,
+                "Y": 0,
+                "Z": 0
+            },
+            "metallicMapping": {
+                "X": 1,
+                "Y": 1,
+                "Z": 1
+            },
+            "metallicOffset": {
+                "X": 0,
+                "Y": 0,
+                "Z": 0
+            },
+            "normalMapping": {
+                "X": 1,
+                "Y": 1,
+                "Z": 1
+            },
+            "normalOffset": {
+                "X": 0,
+                "Y": 0,
+                "Z": 0
+            }
+        },
+        {
+            "material_name": "4inchWheel:color:202:209:238.001",
+            "base_color": "#cad1ed",
+            "main_tex": null,
+            "metallic": 0,
+            "metallic_tex": null,
+            "alpha": 1.0,
+            "alpha_tex": null,
+            "roughness": 1,
+            "roughness_tex": null,
+            "normal": 1,
+            "normal_tex": null,
+            "mapping": {
+                "X": 1,
+                "Y": 1,
+                "Z": 1
+            },
+            "offset": {
+                "X": 0,
+                "Y": 0,
+                "Z": 0
+            },
+            "roughnessMapping": {
+                "X": 1,
+                "Y": 1,
+                "Z": 1
+            },
+            "roughnessOffset": {
+                "X": 0,
+                "Y": 0,
+                "Z": 0
+            },
+            "metallicMapping": {
+                "X": 1,
+                "Y": 1,
+                "Z": 1
+            },
+            "metallicOffset": {
+                "X": 0,
+                "Y": 0,
+                "Z": 0
+            },
+            "normalMapping": {
+                "X": 1,
+                "Y": 1,
+                "Z": 1
+            },
+            "normalOffset": {
+                "X": 0,
+                "Y": 0,
+                "Z": 0
+            }
+        },
+        {
+            "material_name": "4inchWheel:color:202:209:238.002",
+            "base_color": "#cad1ed",
+            "main_tex": null,
+            "metallic": 0,
+            "metallic_tex": null,
+            "alpha": 1.0,
+            "alpha_tex": null,
+            "roughness": 1,
+            "roughness_tex": null,
+            "normal": 1,
+            "normal_tex": null,
+            "mapping": {
+                "X": 1,
+                "Y": 1,
+                "Z": 1
+            },
+            "offset": {
+                "X": 0,
+                "Y": 0,
+                "Z": 0
+            },
+            "roughnessMapping": {
+                "X": 1,
+                "Y": 1,
+                "Z": 1
+            },
+            "roughnessOffset": {
+                "X": 0,
+                "Y": 0,
+                "Z": 0
+            },
+            "metallicMapping": {
+                "X": 1,
+                "Y": 1,
+                "Z": 1
+            },
+            "metallicOffset": {
+                "X": 0,
+                "Y": 0,
+                "Z": 0
+            },
+            "normalMapping": {
+                "X": 1,
+                "Y": 1,
+                "Z": 1
+            },
+            "normalOffset": {
+                "X": 0,
+                "Y": 0,
+                "Z": 0
+            }
+        },
+        {
+            "material_name": "4inchWheel:color:64:64:64",
+            "base_color": "#3f3f3f",
+            "main_tex": null,
+            "metallic": 0,
+            "metallic_tex": null,
+            "alpha": 1.0,
+            "alpha_tex": null,
+            "roughness": 1,
+            "roughness_tex": null,
+            "normal": 1,
+            "normal_tex": null,
+            "mapping": {
+                "X": 1,
+                "Y": 1,
+                "Z": 1
+            },
+            "offset": {
+                "X": 0,
+                "Y": 0,
+                "Z": 0
+            },
+            "roughnessMapping": {
+                "X": 1,
+                "Y": 1,
+                "Z": 1
+            },
+            "roughnessOffset": {
+                "X": 0,
+                "Y": 0,
+                "Z": 0
+            },
+            "metallicMapping": {
+                "X": 1,
+                "Y": 1,
+                "Z": 1
+            },
+            "metallicOffset": {
+                "X": 0,
+                "Y": 0,
+                "Z": 0
+            },
+            "normalMapping": {
+                "X": 1,
+                "Y": 1,
+                "Z": 1
+            },
+            "normalOffset": {
+                "X": 0,
+                "Y": 0,
+                "Z": 0
+            }
+        }
+    ],
+    "propId": "20680",
+    "jobId": "152"
+}
