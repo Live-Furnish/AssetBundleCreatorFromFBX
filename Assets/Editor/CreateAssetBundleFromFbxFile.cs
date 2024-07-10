@@ -11,7 +11,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class CreateAssetBundleFromFbxFile
-{    
+{
     public class ModelData
     {
         public string propName;
@@ -52,7 +52,6 @@ public class CreateAssetBundleFromFbxFile
         public float z { get; set; }
     }
 
-  
     public const float importScale = 1f;
     public const string mainPath = "Assets/FBX/";
     public const string thumb = "Assets/";
@@ -75,6 +74,7 @@ public class CreateAssetBundleFromFbxFile
     {
         if (!isProcess)
         {
+
             Debug.LogWarning("Checking Requested files in Directory!!!");
 
         }
@@ -266,6 +266,7 @@ public class CreateAssetBundleFromFbxFile
             isProcess = false;
             //Debug.Log("Checking New file!!!!!!!!!!!!!!!!!!");
             //RunCoroutine();
+
         }
     }
 
@@ -344,10 +345,11 @@ public class CreateAssetBundleFromFbxFile
             return false;
         }
     }
+
     public const string destinationFolderPath = "D:/BlenderRendering/renderingsystemcode/3D_Model_viewer/fbx_output";
     public static void DeleteDirectory(string directoryPath, string bundlePath)
     {
-        return;
+        //return;
         if (Directory.Exists(directoryPath))
         {
             // Get the name of the source folder
@@ -411,7 +413,7 @@ public class CreateAssetBundleFromFbxFile
         }
     }
 
-    static string api_end_point = "https://dev2.imagine.io/";
+    static string api_end_point = "https://staging.imagine.io/";
     static string accessToken = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM1ODgzOTUzLCJpYXQiOjE3MDEzMjM5NTMsImp0aSI6IjVhMzk4OTdmMzJiMDRmY2I4ZTM4NDdjMjk2OWFiNDY3IiwidXNlcl9pZCI6NDkxNSwibWVtYmVyIjo3MTgsIm9yZ2FuaXphdGlvbiI6NjIwLCJpc19lbWFpbF92ZXJpZmllZCI6dHJ1ZX0.wdU5r2BbVrTAbbygGCyntIVcITs81StTk623vrxI3SM";
     static AssetBundleUploadReqData assetBundleUploadData;
     static AssetBundleUploadReqData thumbnailUploadData;
@@ -446,6 +448,7 @@ public class CreateAssetBundleFromFbxFile
             while (!requestOperation.isDone)
             {
                 await Task.Yield();
+
             }
 
             if (req.result != UnityWebRequest.Result.Success)
@@ -454,6 +457,7 @@ public class CreateAssetBundleFromFbxFile
             }
             else
             {
+
                 Debug.Log("Get UplaodAssetBundle Data: " + req.downloadHandler.text);
                 var jsonData = JsonConvert.DeserializeObject<Dictionary<string, object>>(req.downloadHandler.text);
                 //Dictionary<string, object> data = JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonData["data"].ToString());
@@ -464,7 +468,7 @@ public class CreateAssetBundleFromFbxFile
                 assetBundleUploadData = new AssetBundleUploadReqData();//JsonUtility.FromJson<ShoppableExpAssetBundleUploadReqData>(req.downloadHandler.text);
                 assetBundleUploadData.data = new AssetBundleUploadReqData.Data();
                 assetBundleUploadData.data.presigned_data = new AssetBundleUploadReqData.Presigned_data();
-                assetBundleUploadData.data.presigned_data.url = data["url"].ToString();               
+                assetBundleUploadData.data.presigned_data.url = data["url"].ToString();
                 assetBundleUploadData.data.presigned_data.fields = data["fields"].ToString();
 
                 assetBundleUploadData.data.presigned_data.thumbnail_url = thumbnail_data["url"].ToString();
@@ -474,7 +478,6 @@ public class CreateAssetBundleFromFbxFile
         }
         return null;
     }
-
     public static async Task<bool> UpdateAssetBundleUploadStatus(bool uploadStatus)
     {
         string url = api_end_point + "assetbundles/api/v3/products-viewer-job/detail/" + jobId + "/";
@@ -543,7 +546,7 @@ public class CreateAssetBundleFromFbxFile
 
         //form data 
 
-         Dictionary<string, string> fieldsData = JsonConvert.DeserializeObject<Dictionary<string, string>>(assetBundleUploadData.data.presigned_data.fields);
+        Dictionary<string, string> fieldsData = JsonConvert.DeserializeObject<Dictionary<string, string>>(assetBundleUploadData.data.presigned_data.fields);
 
         WWWForm formData = new WWWForm();
         formData.AddField("key", fieldsData["key"]);
@@ -558,7 +561,7 @@ public class CreateAssetBundleFromFbxFile
         byte[] data = File.ReadAllBytes(bundlePath);
         formData.AddBinaryData("file", data, propName);
 
-        
+
 
         // using(UnityWebRequest file_req = new UnityWebRequest(AssetBundleBuilder.assetbundle_out_path+"/newbundle")){
         //     var requestOperation = file_req.SendWebRequest();
@@ -631,18 +634,25 @@ public class CreateAssetBundleFromFbxFile
         formData.AddField("policy", fieldsData["policy"]);
         formData.AddField("x-amz-signature", fieldsData["x-amz-signature"]);
 
-       
+
         //string thumbnailPath = Path.Combine(thumb, "dummy-image-square.jpg");
-        
+
         //// Convert the texture to PNG format
         //byte[] imageData = File.ReadAllBytes(thumbnailPath);
 
-        //formData.AddBinaryData("file", imageData, "dummy-image-square.jpg", "image/jpg");
+        // formData.AddBinaryData("file", imageData, "dummy-image-square.jpg", "image/jpg");
 
 
         string thumbnailPath = Path.Combine(directoryPath, "THUMBNAIL_" + propId + ".jpg");
-        // Convert the texture to PNG format
+        if (!File.Exists(thumbnailPath))
+        {
+            thumbnailPath = Path.Combine(thumb, "dummy-image-square.jpg");
+
+        }
         byte[] imageData = File.ReadAllBytes(thumbnailPath);
+        // Convert the texture to PNG format
+
+
 
         formData.AddBinaryData("file", imageData, "THUMBNAIL_" + propId + ".jpg", "image/jpg");
 
@@ -685,6 +695,7 @@ public class CreateAssetBundleFromFbxFile
             else
             {
                 Debug.Log("Thumbnail Upload successfully!!!!!!!!!!!!!!!!!");
+
                 return true;
             }
         }
