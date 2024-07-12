@@ -353,11 +353,11 @@ public class CreateAssetBundleFromFbxFile
         if (Directory.Exists(directoryPath))
         {
             // Get the name of the source folder
-            string folderName = new DirectoryInfo(directoryPath).Name;
-            // Combine paths to create the destination folder path
-            string destinationFolder = Path.Combine(destinationFolderPath, folderName);
-            // Copy the source folder and its contents to the destination
-            CopyFolder(directoryPath, destinationFolder);
+            //string folderName = new DirectoryInfo(directoryPath).Name;
+            //// Combine paths to create the destination folder path
+            //string destinationFolder = Path.Combine(destinationFolderPath, folderName);
+            //// Copy the source folder and its contents to the destination
+            //CopyFolder(directoryPath, destinationFolder);
             Debug.Log("Folder copied successfully.");
 
             Directory.Delete(directoryPath, true);
