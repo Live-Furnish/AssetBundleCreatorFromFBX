@@ -36,6 +36,14 @@ public class CreateAssetBundleFromFbxFile
         public string occulsion_tex { get; set; }
         public Mapping mapping { get; set; }
         public Offset offset { get; set; }
+        public Mapping roughnessMapping { get; set; }
+        public Offset roughnessOffset { get; set; }
+        public Mapping metallicMapping { get; set; }
+        public Offset metallicOffset { get; set; }
+        public Mapping normalMapping { get; set; }
+        public Offset normalOffset { get; set; }
+        public Mapping alphaMapping { get; set; }
+        public Offset alphaOffset { get; set; }
     }
 
     public class Mapping
@@ -756,9 +764,12 @@ public class CreateAssetBundleFromFbxFile
             {
                 mat.name = mat.name.Replace("(Instance)", "");
             }
-            mat.SetVector("_GeneralTilling", new Vector2(1, 1));
+            //mat.SetVector("_GeneralTilling", new Vector2(1, 1));
+            mat.SetFloat("_UseGeneralTillingOffset", 0f);
+            mat.SetFloat("_UseGeneralRotation", 0f);
             mat.SetFloat("_Parallax", 0f);
-            mat.SetFloat("_OcclusionStrength", 1f);
+            mat.SetFloat("_OcclusionStrength", 1f);           
+
             MaterialData materialData = materialDataList.Where(x => x.material_name.ToLower() == mat.name.ToLower()).Select(x => x).FirstOrDefault();
             if (materialData == null)
             {
@@ -772,30 +783,26 @@ public class CreateAssetBundleFromFbxFile
                     mat.SetColor("_Color", color);
                 }
 
-            mat.SetFloat("_Metallic", materialData.metallic);
-            if (materialData.mapping != null)
-            {
-                mat.SetVector("_GeneralTilling", new Vector2(materialData.mapping.x, materialData.mapping.y));
-            }
+            
+            //if (materialData.mapping != null)
+            //{
+            //    mat.SetVector("_GeneralTilling", new Vector2(materialData.mapping.x, materialData.mapping.y));
+            //}
 
             mat.SetTextureScale("_MainTex", new Vector2(materialData.mapping.x, materialData.mapping.y));
-            mat.SetTextureScale("_BumpMap", new Vector2(materialData.mapping.x, materialData.mapping.y));
-            mat.SetTextureScale("_SmoothnessMap", new Vector2(materialData.mapping.x, materialData.mapping.y));
-            mat.SetTextureScale("_MetallicGlossMap", new Vector2(materialData.mapping.x, materialData.mapping.y));
             mat.SetTextureScale("_OcclusionMap", new Vector2(materialData.mapping.x, materialData.mapping.y));
+            mat.SetTextureScale("_BumpMap", new Vector2(materialData.normalMapping.x, materialData.normalMapping.y));
+            mat.SetTextureScale("_SmoothnessMap", new Vector2(materialData.roughnessMapping.x, materialData.roughnessMapping.y));
+            mat.SetTextureScale("_MetallicGlossMap", new Vector2(materialData.metallicMapping.x, materialData.metallicMapping.y));
 
-            mat.SetTextureScale("_MainTex", new Vector2(materialData.offset.x, materialData.offset.y));
-            mat.SetTextureScale("_BumpMap", new Vector2(materialData.offset.x, materialData.offset.y));
-            mat.SetTextureScale("_SmoothnessMap", new Vector2(materialData.offset.x, materialData.offset.y));
-            mat.SetTextureScale("_MetallicGlossMap", new Vector2(materialData.offset.x, materialData.offset.y));
-            mat.SetTextureScale("_OcclusionMap", new Vector2(materialData.offset.x, materialData.offset.y));
+            mat.SetTextureOffset("_MainTex", new Vector2(materialData.offset.x, materialData.offset.y));
+            mat.SetTextureOffset("_OcclusionMap", new Vector2(materialData.offset.x, materialData.offset.y));
+            mat.SetTextureOffset("_BumpMap", new Vector2(materialData.normalOffset.x, materialData.normalOffset.y));
+            mat.SetTextureOffset("_SmoothnessMap", new Vector2(materialData.roughnessOffset.x, materialData.roughnessOffset.y));
+            mat.SetTextureOffset("_MetallicGlossMap", new Vector2(materialData.metallicOffset.x, materialData.metallicOffset.y));
 
+            mat.SetFloat("_Metallic", materialData.metallic);
             mat.SetFloat("_Glossiness", materialData.roughness);
-
-
-
-
-
             mat.SetFloat("_BumpScale", materialData.normal);
 
             if (!string.IsNullOrEmpty(materialData.main_tex))
@@ -885,6 +892,8 @@ public class CreateAssetBundleFromFbxFile
 
                         mat.SetTexture("_AlphaTexture", alphatex);
                         mat.SetFloat("_AlphaMaskAmount", 1f);
+                        mat.SetTextureScale("_AlphaTexture", new Vector2(materialData.alphaMapping.x, materialData.alphaMapping.y));
+                        mat.SetTextureOffset("_AlphaTexture", new Vector2(materialData.alphaOffset.x, materialData.alphaOffset.y));
                     }
                 }
             }
