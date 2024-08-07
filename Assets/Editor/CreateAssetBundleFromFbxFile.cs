@@ -24,6 +24,7 @@ public class CreateAssetBundleFromFbxFile
     {
         public string material_name { get; set; }
         public string base_color { get; set; }
+        public string emission_color { get; set; }
         public string main_tex { get; set; }
         public float metallic { get; set; }
         public string metallic_tex { get; set; }
@@ -33,7 +34,11 @@ public class CreateAssetBundleFromFbxFile
         public string roughness_tex { get; set; }
         public string normal_tex { get; set; }
         public float normal { get; set; }
+        public float occulsion { get; set; }
         public string occulsion_tex { get; set; }
+        public float emission { get; set; }
+        public string emission_tex { get; set; }
+        public float useAlbedoAlpha { get; set; }
         public Mapping mapping { get; set; }
         public Offset offset { get; set; }
         public Mapping roughnessMapping { get; set; }
@@ -44,6 +49,10 @@ public class CreateAssetBundleFromFbxFile
         public Offset normalOffset { get; set; }
         public Mapping alphaMapping { get; set; }
         public Offset alphaOffset { get; set; }
+        public Mapping occulsionMapping { get; set; }
+        public Offset occulsionOffset { get; set; }
+        public Mapping emissionMapping { get; set; }
+        public Offset emissionOffset { get; set; }        
     }
 
     public class Mapping
@@ -92,7 +101,7 @@ public class CreateAssetBundleFromFbxFile
         }
 
         float currentTime = Time.realtimeSinceStartup;
-        if (currentTime - lastExecutionTime > interval)
+        if (currentTime - lastExecutionTime > interval) // checking the process in loop in the basis of interval time
         {
             if (!isProcess)
             {
@@ -140,17 +149,11 @@ public class CreateAssetBundleFromFbxFile
         textureImporter.isReadable = true;
         textureImporter.SaveAndReimport();
     }
-
+    
     [MenuItem("Tools/Run Editor Coroutine")]
     public static void RunCoroutine()
     {
         EditorCoroutineUtility.StartCoroutineOwnerless(MyEditorCoroutine());
-    }
-
-    [MenuItem("Tools/Run Editor Coroutine")]
-    public static void StopCoroutine()
-    {
-        isProcess = false;
     }
 
     private static IEnumerator MyEditorCoroutine()
@@ -767,8 +770,7 @@ public class CreateAssetBundleFromFbxFile
             //mat.SetVector("_GeneralTilling", new Vector2(1, 1));
             mat.SetFloat("_UseGeneralTillingOffset", 0f);
             mat.SetFloat("_UseGeneralRotation", 0f);
-            mat.SetFloat("_Parallax", 0f);
-            mat.SetFloat("_OcclusionStrength", 1f);           
+            mat.SetFloat("_Parallax", 0f);                  
 
             MaterialData materialData = materialDataList.Where(x => x.material_name.ToLower() == mat.name.ToLower()).Select(x => x).FirstOrDefault();
             if (materialData == null)
@@ -783,27 +785,37 @@ public class CreateAssetBundleFromFbxFile
                     mat.SetColor("_Color", color);
                 }
 
-            
+            if (!string.IsNullOrEmpty(materialData.emission_color))
+            {
+                string[] _color = materialData.emission_color.Split('|');
+                Color color = new Color(int.Parse(_color[0]), int.Parse(_color[1]), int.Parse(_color[2]));
+                mat.SetColor("_EmissionColor", color);
+            }
+
             //if (materialData.mapping != null)
             //{
             //    mat.SetVector("_GeneralTilling", new Vector2(materialData.mapping.x, materialData.mapping.y));
             //}
 
             mat.SetTextureScale("_MainTex", new Vector2(materialData.mapping.x, materialData.mapping.y));
-            mat.SetTextureScale("_OcclusionMap", new Vector2(materialData.mapping.x, materialData.mapping.y));
+            mat.SetTextureScale("_OcclusionMap", new Vector2(materialData.occulsionMapping.x, materialData.occulsionMapping.y));
             mat.SetTextureScale("_BumpMap", new Vector2(materialData.normalMapping.x, materialData.normalMapping.y));
             mat.SetTextureScale("_SmoothnessMap", new Vector2(materialData.roughnessMapping.x, materialData.roughnessMapping.y));
             mat.SetTextureScale("_MetallicGlossMap", new Vector2(materialData.metallicMapping.x, materialData.metallicMapping.y));
+            mat.SetTextureScale("_EmissionMap", new Vector2(materialData.emissionMapping.x, materialData.emissionMapping.y));
 
             mat.SetTextureOffset("_MainTex", new Vector2(materialData.offset.x, materialData.offset.y));
-            mat.SetTextureOffset("_OcclusionMap", new Vector2(materialData.offset.x, materialData.offset.y));
+            mat.SetTextureOffset("_OcclusionMap", new Vector2(materialData.occulsionOffset.x, materialData.occulsionOffset.y));
             mat.SetTextureOffset("_BumpMap", new Vector2(materialData.normalOffset.x, materialData.normalOffset.y));
             mat.SetTextureOffset("_SmoothnessMap", new Vector2(materialData.roughnessOffset.x, materialData.roughnessOffset.y));
             mat.SetTextureOffset("_MetallicGlossMap", new Vector2(materialData.metallicOffset.x, materialData.metallicOffset.y));
+              mat.SetTextureOffset("_EmissionMap", new Vector2(materialData.emissionOffset.x, materialData.emissionOffset.y));
 
             mat.SetFloat("_Metallic", materialData.metallic);
             mat.SetFloat("_Glossiness", materialData.roughness);
             mat.SetFloat("_BumpScale", materialData.normal);
+            mat.SetFloat("_OcclusionStrength", materialData.occulsion);
+            mat.SetFloat("_EmissionAmount", materialData.emission);
 
             if (!string.IsNullOrEmpty(materialData.main_tex))
             {
@@ -841,6 +853,18 @@ public class CreateAssetBundleFromFbxFile
                     Texture2D occulsiontex = (Texture2D)AssetDatabase.LoadAssetAtPath(path, typeof(Texture2D));
 
                     mat.SetTexture("_OcclusionMap", occulsiontex);
+                }
+            }
+
+            if (!string.IsNullOrEmpty(materialData.emission_tex))
+            {
+                string path = GetFilePath(materialData.emission_tex);
+
+                if (!string.IsNullOrEmpty(path))
+                {
+                    Texture2D emissionntex = (Texture2D)AssetDatabase.LoadAssetAtPath(path, typeof(Texture2D));
+
+                    mat.SetTexture("_EmissionMap", emissionntex);
                 }
             }
 
@@ -896,6 +920,7 @@ public class CreateAssetBundleFromFbxFile
                         mat.SetTextureOffset("_AlphaTexture", new Vector2(materialData.alphaOffset.x, materialData.alphaOffset.y));
                     }
                 }
+                mat.SetFloat("_UseAlbedoAlpha", materialData.useAlbedoAlpha);
             }
         }
         Debug.Log("Material details set successfully");
